@@ -16,8 +16,8 @@ class Graphics:
 		self.screen = pygame.display.set_mode((self.window_size, self.window_size))
 		self.background = pygame.image.load(abs_file_path)
 
-		self.square_size = self.window_size / 8
-		self.piece_size = self.square_size / 2
+		self.square_size = self.window_size // 8
+		self.piece_size = self.square_size // 2
 
 		self.message = False
 
@@ -47,21 +47,21 @@ class Graphics:
 		"""
 		Takes a board object and draws all of its squares to the display
 		"""
-		for x in xrange(8):
-			for y in xrange(8):
+		for x in range(8):
+			for y in range(8):
 				pygame.draw.rect(self.screen, board[x][y].color, (x * self.square_size, y * self.square_size, self.square_size, self.square_size), )
 	
 	def draw_board_pieces(self, board):
 		"""
 		Takes a board object and draws all of its pieces to the display
 		"""
-		for x in xrange(8):
-			for y in xrange(8):
+		for x in range(8):
+			for y in range(8):
 				if board.matrix[x][y].occupant != None:
 					pygame.draw.circle(self.screen, board.matrix[x][y].occupant.color, self.pixel_coords((x,y)), self.piece_size) 
 
 					if board.location((x,y)).occupant.king == True:
-						pygame.draw.circle(self.screen, Color.GOLD, self.pixel_coords((x,y)), int (self.piece_size / 1.7), self.piece_size / 4)
+						pygame.draw.circle(self.screen, Color.GOLD, self.pixel_coords((x,y)), int(self.piece_size // 1.7), self.piece_size // 4)
 
 
 	def pixel_coords(self, board_coords):
@@ -71,11 +71,12 @@ class Graphics:
 		"""
 		return (board_coords[0] * self.square_size + self.piece_size, board_coords[1] * self.square_size + self.piece_size)
 
-	def board_coords(self, (pixel_x, pixel_y)):
+	def board_coords(self, coord):
 		"""
 		Does the reverse of pixel_coords(). Takes in a tuple of of pixel coordinates and returns what square they are in.
 		"""
-		return (pixel_x / self.square_size, pixel_y / self.square_size)	
+		pixel_x, pixel_y = coord
+		return (pixel_x // self.square_size, pixel_y // self.square_size)	
 
 	def highlight_squares(self, squares, origin):
 		"""
@@ -96,4 +97,4 @@ class Graphics:
 		self.font_obj = pygame.font.Font('freesansbold.ttf', 44)
 		self.text_surface_obj = self.font_obj.render(message, True, Color.HIGH, Color.BLACK)
 		self.text_rect_obj = self.text_surface_obj.get_rect()
-		self.text_rect_obj.center = (self.window_size / 2, self.window_size / 2)
+		self.text_rect_obj.center = (self.window_size // 2, self.window_size // 2)
